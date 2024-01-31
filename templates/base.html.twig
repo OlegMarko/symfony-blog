@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -12,6 +12,12 @@
         {% endblock %}
     </head>
     <body>
+        <h1>MicroPost</h1>
+
+        {% for message in app.flashes('success') %}
+            <div style="color: green">{{ message }}</div>
+        {% endfor %}
+
         {% block body %}{% endblock %}
     </body>
 </html>
