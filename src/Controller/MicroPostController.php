@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\MicroPost;
+use App\Form\MicroPostType;
 use App\Repository\MicroPostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -28,23 +29,17 @@ class MicroPostController extends AbstractController
         ]);
     }
 
-    #[Route('/micro-post/create', name: 'app_micro_post_add')]
+    #[Route('/micro-post/create', name: 'app_micro_post_create')]
     public function create(Request $request, MicroPostRepository $postRepository): Response
     {
-        $microPost = new MicroPost();
-        $form = $this->createFormBuilder($microPost)
-            ->add('title')
-            ->add('text')
-            ->add('submit', SubmitType::class, ['label' => 'Save'])
-            ->getForm();
-
+        $form = $this->createForm(MicroPostType::class, new MicroPost());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
             $post->setCreated(new \DateTime());
 
-            $postRepository->add($post);
+            $postRepository->add($post, true);
 
             $this->addFlash('success', 'your micro post have been added');
 
@@ -59,12 +54,7 @@ class MicroPostController extends AbstractController
     #[Route('/micro-post/{post}/edit', name: 'app_micro_post_edit')]
     public function edit( MicroPost $post, Request $request, MicroPostRepository $postRepository): Response
     {
-        $form = $this->createFormBuilder($post)
-            ->add('title')
-            ->add('text')
-            ->add('submit', SubmitType::class, ['label' => 'Save'])
-            ->getForm();
-
+        $form = $this->createForm(MicroPostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -77,7 +67,8 @@ class MicroPostController extends AbstractController
         }
 
         return $this->render('micro_post/edit.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'postId' => $post->getId()
         ]);
     }
 }
