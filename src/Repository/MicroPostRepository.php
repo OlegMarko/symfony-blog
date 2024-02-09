@@ -16,11 +16,19 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MicroPostRepository extends ServiceEntityRepository
 {
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MicroPost::class);
     }
 
+    /**
+     * @param MicroPost $entity
+     * @param bool $flush
+     * @return void
+     */
     public function add(MicroPost $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
