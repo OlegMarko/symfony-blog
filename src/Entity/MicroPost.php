@@ -12,6 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: MicroPostRepository::class)]
 class MicroPost
 {
+    public const EDIT = 'POST_EDIT';
+    public const VIEW = 'POST_VIEW';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -30,7 +33,7 @@ class MicroPost
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created = null;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true, cascade: ['persist'], fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, cascade: ['persist'], fetch: 'EAGER', orphanRemoval: true)]
     private Collection $comments;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'liked')]
@@ -44,6 +47,7 @@ class MicroPost
     {
         $this->comments = new ArrayCollection();
         $this->likedBy = new ArrayCollection();
+        $this->created = new \DateTime();
     }
 
     public function getId(): ?int

@@ -37,21 +37,18 @@ class AppFixtures extends Fixture
         $microPost1 = new MicroPost();
         $microPost1->setTitle('Post 1');
         $microPost1->setText('Post 1 Text');
-        $microPost1->setCreated(new \DateTime());
         $microPost1->setAuthor($user1);
         $manager->persist($microPost1);
 
         $microPost2 = new MicroPost();
         $microPost2->setTitle('Post 2');
         $microPost2->setText('Post 2 Text');
-        $microPost2->setCreated(new \DateTime());
         $microPost2->setAuthor($user2);
         $manager->persist($microPost2);
 
         $microPost3 = new MicroPost();
         $microPost3->setTitle('Post 3');
         $microPost3->setText('Post 3 Text');
-        $microPost3->setCreated(new \DateTime());
         $microPost3->setAuthor($user1);
         $manager->persist($microPost3);
 
