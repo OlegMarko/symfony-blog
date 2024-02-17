@@ -14,5 +14,15 @@ services:
     volumes:
       - database_data:/var/lib/postgresql/data:rw
 
+  mailer:
+    image: axllent/mailpit
+    container_name: mailer
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
 volumes:
   database_data:
