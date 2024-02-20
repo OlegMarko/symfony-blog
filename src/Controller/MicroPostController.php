@@ -11,7 +11,7 @@ use App\Repository\MicroPostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MicroPostController extends AbstractController
@@ -34,7 +34,7 @@ class MicroPostController extends AbstractController
     }
 
     #[Route('/micro-post/create', name: 'app_micro_post_create', priority: 2)]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('ROLE_WRITER')]
     public function create(Request $request, MicroPostRepository $postRepository): Response
     {
         $form = $this->createForm(MicroPostType::class, new MicroPost());
