@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Followers{% endblock %}
+
+{% block bread %}
+    → <a href="{{ path('app_profile', { id: user.id }) }}">User Profile</a>
+    → Followers
+{% endblock %}
+
+{% block body %}
+    {{ include ('profile/_profile_header.html.twig') }}
+    {{ include ('profile/_profile_tabs.html.twig') }}
+    {{ include ('follower/_follower_list.html.twig', { users: user.followers }) }}
+{% endblock %}
