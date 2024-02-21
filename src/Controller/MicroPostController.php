@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\MicroPost;
+use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\MicroPostType;
 use App\Repository\CommentRepository;
@@ -22,6 +23,34 @@ class MicroPostController extends AbstractController
         return $this->render('micro_post/index.html.twig', [
             'posts' => $post->findAll(),
         ]);
+    }
+
+    #[Route('/micro-post/top-liked', name: 'app_micro_post_topliked')]
+    public function topLiked(MicroPostRepository $posts): Response
+    {
+        return $this->render(
+            'micro_post/top_liked.html.twig',
+            [
+                'posts' => $posts->findAllWithMinLikes(2),
+            ]
+        );
+    }
+
+    #[Route('/micro-post/follows', name: 'app_micro_post_follows')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function follows(MicroPostRepository $posts): Response
+    {
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+
+        return $this->render(
+            'micro_post/follows.html.twig',
+            [
+                'posts' => $posts->findAllByAuthors(
+                    $currentUser->getFollows()
+                ),
+            ]
+        );
     }
 
     #[Route('/micro-post/{post<\d+>}', name: 'app_micro_post_show')]
