@@ -2,6 +2,8 @@ twig:
     file_name_pattern: '*.twig'
     form_themes:
         - 'form/fields.html.twig'
+    globals:
+        profiles: '%profiles%'
 
 when@test:
     twig:

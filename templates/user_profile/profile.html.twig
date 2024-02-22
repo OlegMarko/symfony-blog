@@ -7,6 +7,8 @@
 {% endblock %}
 
 {% block body %}
+    {{ include('user_profile/_profile_tabs.html.twig') }}
+
     {{ form_start(form) }}
     {{ include ('user_profile/_form.html.twig') }}
 
